@@ -51,7 +51,6 @@ Field | Content |
 --- | --- | 
 min | Minimum temperature in degrees Celsius. |
 max | Maximum temperature in degrees Celsius. | 
-avg | Average temperature in degrees Celsius. | 
 feels_like | Feels like temperature in degrees Celsius. | 
 city_name | Queried city's name. | 
 country | Queried city's country code in the ISO 3166-1 alpha 3 format. | 
