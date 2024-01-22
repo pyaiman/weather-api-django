@@ -2,7 +2,6 @@ import os
 import requests
 from .helpers import get_country_alpha_3
 
-from dotenv import load_dotenv
 
 class OpenWeather:
     get_city_coordinates_url = "http://api.openweathermap.org/geo/1.0/direct?q=city_name&appid=api_key"
