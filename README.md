@@ -33,11 +33,11 @@ By passing the name of a city it will return the data in json format.
 ```
 
 # weather-api
-|Endpoint                            | Resource                      | Authentication required |
-|------------------------------------|-------------------------------|-------------------------|
-|`/api/weather-api/weather-api-key/` | Retrieve OpenWeather keys     |      X                  |
-|`/api/weather-api/create/`          | Save an OpenWeather key       |      X                  |
-|`/api/weather-api/weather/`         | Retrieve data for the weather |                         |
+|Endpoint                              | Resource                      | Authentication required |
+|--------------------------------------|-------------------------------|-------------------------|
+|`/api/weather-api/weather-api-key/`   | Retrieve OpenWeather keys     |      X                  |
+|`/api/weather-api/create/`            | Save an OpenWeather key       |      X                  |
+|`/api/weather-api/weather/<str:city>` | Retrieve data for the weather |                         |
 
 #### Payload example to save a OpenWeather key:
 ```json
