@@ -37,7 +37,7 @@ By passing the name of a city it will return the data in json format.
 |--------------------------------------|-------------------------------|-------------------------|
 |`/api/weather-api/weather-api-key/`   | Retrieve OpenWeather keys     |      X                  |
 |`/api/weather-api/create/`            | Save an OpenWeather key       |      X                  |
-|`/api/weather-api/weather/<str:city>` | Retrieve data for the weather |                         |
+|`/api/weather-api/weather/<str:city>` | Retrieve data for the weather |      X                  |
 
 #### Payload example to save a OpenWeather key:
 ```json
