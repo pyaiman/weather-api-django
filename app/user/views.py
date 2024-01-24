@@ -4,7 +4,7 @@ Views for the user API
 from rest_framework import generics, authentication, permissions
 from rest_framework.settings import api_settings
 from rest_framework.authtoken.views import ObtainAuthToken
-from user.serializers import UserSerializer, AuthTokenSerializer
+from user.serializers import AuthTokenSerializer, IsSelfOrSuperuser, UserSerializer
 from django.contrib.auth import get_user_model
 
 
@@ -26,13 +26,15 @@ class UserUpdateView(generics.UpdateAPIView):
     """Update a specific user's details."""
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+    authentication_classes = [authentication.TokenAuthentication]
+    permission_classes = [permissions.IsAuthenticated, IsSelfOrSuperuser]
     
 class UserDeleteView(generics.DestroyAPIView):
     """Delete a specific user."""
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
     authentication_classes = [authentication.TokenAuthentication]
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated, IsSelfOrSuperuser]
 
 
 class CreateTokenView(ObtainAuthToken):

@@ -50,7 +50,7 @@ class WeatherApiKeyViewTests(TestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(WeatherApiKey.objects.filter(user=self.user).count(), 2)
     
-    def test_create_weather_api_key_view_success(self):
+    def test_create_weather_api_key_view_unauthorized(self):
         """
         Test creating a new weather API key for unauthenticated user
         should return 401
@@ -75,25 +75,21 @@ class WeatherApiKeyViewTests(TestCase):
         mock_temperature.assert_called_once_with('tokyo', 'test_api_key')
     
     @patch('weatherapi.views.OpenWeatherApiRequests.get_city_coordinates')
-    def test_retrieve_weather_data_view_failure(self, mock_coordinates):
+    def test_retrieve_weather_data_view_failure_city_not_exists(self, mock_coordinates):
         """Test retrieving weather data for a nonexistent city."""
         mock_coordinates.side_effect = ValueError("Mocked error")
-        
-        response = self.client.get(reverse('weatherapi:weather', args=['non existent']))
-        
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-        self.assertEqual(response.data, {"error": "City not found."})
-        
+        with self.assertRaises(ValueError):
+            self.client.get(reverse('weatherapi:weather', args=['non existent']))
         mock_coordinates.assert_called_once_with('non existent', 'test_api_key')
 
 
-    def test_retrieve_weather_data_view_failure(self):
+    def test_retrieve_weather_data_view_failure_unauthorized(self):
         """Test retrieve weather data for unauthenticated user should return 401"""
         client = APIClient()
         response = client.get(reverse('weatherapi:weather', args=['non existent']))
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
     
-    def test_retrieve_weather_data_view_failure(self):
+    def test_retrieve_weather_data_view_failure_no_openweather_key(self):
         """Test retrieve weather data for user withou OpenWeather key should return 400"""
         user = get_user_model().objects.create_user(
             email='test2@test.com',

@@ -77,6 +77,7 @@ class UserUpdateViewTests(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = create_user(**USER_PAYLOAD)
+        self.client.force_authenticate(self.user)
 
     def test_user_update_view_success(self):
         data = {'name': 'Updated Name'}
@@ -86,7 +87,6 @@ class UserUpdateViewTests(TestCase):
 
     def test_user_update_view_failure(self):
         """Test update inexistent user."""
-        self.client.force_authenticate(user=None)
         data = {'name': 'Updated Name'}
         response = self.client.patch(reverse('user:user-update', args=[999]), data)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)

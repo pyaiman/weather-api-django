@@ -6,7 +6,7 @@ from django.contrib.auth import (
     get_user_model,
     authenticate,
     )
-from rest_framework import serializers
+from rest_framework import permissions, serializers
 from django.utils.translation import gettext as _
 
 class UserSerializer(serializers.ModelSerializer):
@@ -55,3 +55,13 @@ class AuthTokenSerializer(serializers.Serializer):
         
         attrs['user'] = user
         return attrs
+
+
+class IsSelfOrSuperuser(permissions.BasePermission):
+    """
+    Custom permission to only allow users to perform actions on themselves
+    or allow superusers to perform actions on any user.
+    """
+
+    def has_object_permission(self, request, view, obj):
+        return obj == request.user or request.user.is_superuser
